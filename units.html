@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>单位换算计算器</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		body {background-color: #f8f9fa;}
+		.main-card {box-shadow: 0 4px 18px rgba(0,0,0,0.08);border-radius: 14px;}
+		.input-group-text {min-width: 160px;font-weight: 500;}
+		.calc-block{background:#eef7ff;padding:1rem;border-radius:10px;margin-bottom:1rem;}
+		.nav-tabs .nav-link{font-weight:500;font-size:14px}
+		.form-control:focus{box-shadow:0 0 0 0.2rem rgba(13,110,255,.25)}
+		.tab-pane {padding-top: 1rem;}
+		.visc-divider{border-top:1px solid #ccc;margin:1.5rem 0;padding-top:1.5rem}
+		.table-convert th{background:#0d6efd;color:#fff}
+		.table-convert{font-size:14px}
+		.table-convert th{
+	white-space: nowrap;
+}
+.table-responsive{
+	overflow-x: auto;
+}
+.bg-light{background-color:#f8f9fa !important;}
+.small{font-size:0.875rem;line-height:1.65;}
+ol.ps-3{padding-left:1.2rem;}
+ol.mb-0{margin-bottom:0;}
+	</style>
+</head>
+<body>
+<div class="container py-5">
+	<div class="row justify-content-center">
+		<div class="col-xl-12 col-lg-12 col-md-12">
+			<div class="main-card p-4 border-0 bg-white">
+				<h2 class="text-center text-primary mb-4">单位换算 & 流体计算</h2>
+				<!-- 顶部选项卡 -->
+				<ul class="nav nav-tabs mb-4 flex-wrap" role="tablist">
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabLength">长度</button></li>
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabArea">面积</button></li>
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabVolume">体积/容量</button></li>
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabMass">质量</button></li>
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabDensity">密度</button></li>
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabFlow">流量</button></li>
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabViscosity">粘度</button></li>
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabForce">力学(力)</button></li>
+					<li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabPressure">压力(压强)</button></li>
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabTemp">温度</button></li>
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabPower">功率</button></li>
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabSpeed">速度</button></li>
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabEnergy">功/能/热</button></li>
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabAngle">角度</button></li>
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabLeak">漏率</button></li>
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabConc">浓度</button></li>
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabCalc">流体计算</button></li>
+<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabWireAmp">电线载流量</button></li>
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabTable">换算对照表</button></li>
+				</ul>
+
+				<div class="tab-content">
+					<!-- 1.长度 -->
+					<div class="tab-pane fade" id="tabLength">
+						<div id="lengthBox" class="row g-3"></div>
+						<div class="mt-4 p-3 bg-light border rounded text-secondary small">
+							<strong>说明：</strong>
+							<ol class="mb-0 ps-3">
+								<li>国际标准基准单位为米(m)；km代表千米</li>
+								<li>市制丈、尺、寸换算标准：1米 = 3市尺</li>
+								<li>Å（埃）多用于半导体、镀膜微观尺寸测量</li>
+								<li>英寸、英尺、英里为英美工程、外贸常用长度单位</li>
+							</ol>
+						</div>
+					</div>
+					<!-- 2.面积 -->
+					<div class="tab-pane fade" id="tabArea">
+						<div id="areaBox" class="row g-3"></div>
+						<div class="mt-4 p-3 bg-light border rounded text-secondary small">
+							<strong>说明：</strong>
+							<ol class="mb-0 ps-3">
+								<li>基准单位为平方米(m²)</li>
+								<li>亩、顷为国内土地市制面积，1亩≈666.6667㎡</li>
+								<li>ha公顷、acre英亩是国际农田、场地通用面积单位</li>
+							</ol>
+						</div>
+					</div>
+					<!-- 3.体积 -->
+					<div class="tab-pane fade" id="tabVolume">
+						<div id="volumeBox" class="row g-3"></div>
+						<div class="mt-4 p-3 bg-light border rounded text-secondary small">
+							<strong>说明：</strong>
+							<ol class="mb-0 ps-3">
+								<li>基准单位立方米(m³)</li>
+								<li>UKgal英加仑、USgal美加仑用于油料、化工、涂料容积计量</li>
+								<li>立方英尺、立方英寸为欧美设备英制容积标注单位</li>
+								<li>升的单位符号，大小写字母都可以使用 L/l</li>
+							</ol>
+						</div>
+					</div>
+					<!--4.质量 -->
+					<div class="tab-pane fade" id="tabMass">
+						<div id="massBox" class="row g-3"></div>
+						<div class="mt-4 p-3 bg-light border rounded text-secondary small">
+							<strong>说明：</strong>
+							<ol class="mb-0 ps-3">
+								<li>SI基准单位千克(kg)</li>
+								<li>常衡磅(lb)法定精确值：1 lb = 0.45359237 kg，源自 1959 国际码磅协议，符合 <a href="https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=ADAA308A0BE559EC29E773B71591F463">GB 3100-1993</a> 国标</li>
+								<li>oz盎司、gr格令、ct克拉用于贵金属、微量称重</li>
+								<li>担、斤、两、钱为中国市制质量单位</li>
+							</ol>
+						</div>
+					</div>
+					<!--5.密度 -->
+					<div class="tab-pane fade" id="tabDensity">
+						<div id="densityBox" class="row g-3"></div>
+						<div class="mt-4 p-3 bg-light border rounded text-secondary small">
+							<strong>说明：</strong>
+							<ol class="mb-0 ps-3">
+								<li>基准单位kg/m³</li>
+								<li>g/cm³广泛用于固体、液体密度标注，1 g/cm³ = 1000 kg/m³</li>
+								<li>t/m³数值等同于水的密度量级，工程物料简易换算</li>
+								<li>lb/ft³是欧美流体、塑料行业密度单位</li>
+							</ol>
+						</div>
+					</div>
+					<!--6.流量 -->
+					<div class="tab-pane fade" id="tabFlow">
+						<div id="flowBox" class="row g-3"></div>
+						<div class="mt-4 p-3 bg-light border rounded text-secondary small">
+							<strong>说明：</strong>
+							<ol class="mb-0 ps-3">
+								<li>SI基准体积流量m³/s</li>
+								<li>SCCM=标准立方厘米每分钟，半导体、真空气体流量专用</li>
+								<li>l/min(lpm)、cfm立方英尺/分常用于风机、管路液体气体流量</li>
+							</ol>
+						</div>
+					</div>
+					<!--7.粘度 -->
+					<div class="tab-pane fade" id="tabViscosity">
+						<h5 class="text-secondary">一、运动粘度单位换算</h5>
+						<div id="kinViscBox" class="row g-3"></div>
+						<div class="mt-2 p-2 bg-light border rounded text-secondary small">
+							<strong>运动粘度说明：</strong>
+							<ol class="mb-0 ps-3">
+								<li>基准单位m²/s</li>
+								<li>St斯托克斯、cSt厘斯托克斯是润滑油、液压油行业主流单位</li>
+							</ol>
+						</div>
+						<div class="visc-divider"></div>
+						<h5 class="text-secondary">二、动力粘度单位换算</h5>
+						<div id="dynViscBox" class="row g-3"></div>
+						<div class="mt-2 p-2 bg-light border rounded text-secondary small">
+							<strong>动力粘度说明：</strong>
+							<ol class="mb-0 ps-3">
+								<li>基准单位Pa·s</li>
+								<li>Po泊、cP厘泊是日化、油品日常粘度标注单位</li>
+								<li>kgf·s/m²为老旧工程体系粘度单位</li>
+							</ol>
+						</div>
+						<div class="visc-divider"></div>
+						<h5 class="text-primary">三、动力粘度 ↔ 运动粘度互算</h5>
+						<div class="calc-block">
+							<p class="mb-3">换算公式：μ(Pa·s) = ν(m²/s) × ρ(kg/m³)</p>
+							<div class="row g-3">
+								<div class="col-md-4">
+									<label>流体密度 ρ (千克/立方米（kg/m³）)</label>
+									<input class="form-control" id="viscRho" type="number" step="any">
+								</div>
+								<div class="col-md-4">
+									<label>运动粘度 ν (平方米/秒（m²/s）)</label>
+									<input class="form-control" id="viscNu" type="number" step="any">
+								</div>
+								<div class="col-md-4">
+									<label>动力粘度 μ (帕斯卡秒（Pa·s）)</label>
+									<input class="form-control" id="viscMu" type="number" step="any">
+								</div>
+							</div>
+							<div class="mt-3 d-flex gap-2">
+								<button class="btn btn-primary" id="runViscCalc">执行换算</button>
+								<button class="btn btn-outline-secondary" id="resetViscCalc">清空输入</button>
+							</div>
+						</div>
+					</div>
+					<!--8.力学（力） -->
+					<div class="tab-pane fade" id="tabForce">
+						<div id="forceBox" class="row g-3"></div>
+						<div class="mt-4 p-3 bg-light border rounded text-secondary small">
+							<strong>说明：</strong>
+							<ol class="mb-0 ps-3">
+								<li>力学基准单位牛顿(N)</li>
+								<li>kgf千克力标准值 1 kgf = 9.80665 N</li>
+								<li>lbf磅力为欧美机械载荷单位；kip千磅力用于重型设备</li>
+								<li>dyn达因适用于微小精密力学测量场景</li>
+							</ol>
+						</div>
+					</div>
+					<!--9.压力(压强) 默认激活 -->
+					<div class="tab-pane fade show active" id="tabPressure">
+						<div id="pressureBox" class="row g-3"></div>
+						<div class="mt-4 p-3 bg-light border rounded text-secondary small">
+							<strong>说明：</strong>
+							<ol class="mb-0 ps-3">
+								<li>压强SI基准单位帕斯卡(Pa)</li>
+								<li>kPa、MPa为机械、液压通用工程压力单位</li>
+								<li>mbar、mTorr、Torr是真空腔体、检漏专用压力单位</li>
+								<li>kgf/cm²俗称工程大气压，老旧设备压力表常用</li>
+								<li>atm标准大气压、psi英制压力、mmH₂O/inH₂O微压风压测量</li>
+							</ol>
+						</div>
+					</div>
+					<!--10.温度 -->
+					<div class="tab-pane fade" id="tabTemp">
+						<div id="tempBox" class="row g-3"></div>
+						<div class="mt-4 p-3 bg-light border rounded text-secondary small">
+							<strong>说明：</strong>
+							<ol class="mb-0 ps-3">
+								<li>温度为偏移型换算，不适用倍率基准换算公式</li>
+								<li>℃：摄氏温度；℉：华氏温度；K：开尔文热力学温度</li>
+								<li>固定换算关系：K = ℃ + 273.15</li>
+							</ol>
+						</div>
+					</div>
+					<!--11.功率 -->
+					<div class="tab-pane fade" id="tabPower">
+						<div id="powerBox" class="row g-3"></div>
+						<div class="mt-4 p-3 bg-light border rounded text-secondary small">
+							<strong>说明：</strong>
+							<ol class="mb-0 ps-3">
+								<li>功率基准单位瓦特(W)</li>
+								<li>kW千瓦用于电机、电气动力设备标注</li>
+								<li>PS米制马力、hp英制马力多用于发动机、内燃机动力参数</li>
+							</ol>
+						</div>
+					</div>
+					<!--12.速度 -->
+					<div class="tab-pane fade" id="tabSpeed">
+						<div id="speedBox" class="row g-3"></div>
+						<div class="mt-4 p-3 bg-light border rounded text-secondary small">
+							<strong>说明：</strong>
+							<ol class="mb-0 ps-3">
+								<li>速度基准单位m/s</li>
+								<li>cm/s适配低速流体、微小工件移动速度</li>
+								<li>km/h地面车速；kn节用于船舶、航空航行速度</li>
+								<li>mach马赫为音速倍数，高速飞行器专用单位</li>
+							</ol>
+						</div>
+					</div>
+					<!--13.功/能/热 -->
+					<div class="tab-pane fade" id="tabEnergy">
+						<div id="energyBox" class="row g-3"></div>
+						<div class="mt-4 p-3 bg-light border rounded text-secondary small">
+							<strong>说明：</strong>
+							<ol class="mb-0 ps-3">
+								<li>能量、功基准单位焦耳(J)</li>
+								<li>kW·h即日常电能计量单位“度”</li>
+								<li>cal千卡用于热量、食品热值计算</li>
+								<li>btu英热单位适配暖通、空调制冷行业</li>
+								<li>ft·lb是欧美机械英制功值单位</li>
+							</ol>
+						</div>
+					</div>
+					<!--14.角度 -->
+					<div class="tab-pane fade" id="tabAngle">
+						<div id="angleBox" class="row g-3"></div>
+						<div class="mt-4 p-3 bg-light border rounded text-secondary small">
+							<strong>说明：</strong>
+							<ol class="mb-0 ps-3">
+								<li>角度数学基准单位弧度(rad)</li>
+								<li>°度、′角分、″角秒用于测绘、机床、光学精密角度定位</li>
+								<li>换算全程使用圆周率π精算，无四舍五入近似误差</li>
+							</ol>
+						</div>
+					</div>
+					<!--15.漏率 -->
+					<div class="tab-pane fade" id="tabLeak">
+						<div id="leakBox" class="row g-3"></div>
+						<div class="mt-4 p-3 bg-light border rounded text-secondary small">
+							<strong>说明：</strong>
+							<ol class="mb-0 ps-3">
+								<li>真空漏率基准Pa·m³/s</li>
+								<li>全部单位仅用于真空检漏测试</li>
+								<li>适用场景：半导体腔体、真空镀膜、负压管路气密性检测</li>
+							</ol>
+						</div>
+					</div>
+					<!--16.浓度 -->
+					<div class="tab-pane fade" id="tabConc">
+						<div id="concBox" class="row g-3"></div>
+						<div class="mt-4 p-3 bg-light border rounded text-secondary small">
+							<strong>说明：</strong>
+							<ol class="mb-0 ps-3">
+								<li>以纯比值1作为统一换算基准</li>
+								<li>% = 百分含量，基准系数0.01</li>
+								<li>ppm=10⁻⁶、ppb=10⁻⁹、ppt=10⁻¹²</li>
+								<li>多用于废气杂质、气体配比、溶液溶质浓度检测</li>
+							</ol>
+						</div>
+					</div>
+					<!--17.流体计算 -->
+					<div class="tab-pane fade" id="tabCalc">
+						<div class="calc-block">
+							<h5 class="text-primary mb-3">公式：$Q(m³/s) = A(m²) × v(m/s)$ 、$A=πd²/4$</h5>
+							<div class="row g-3">
+								<div class="col-md-6">
+									<label>体积流量 Q (立方米/秒（m³/s）)</label>
+									<input class="form-control" id="calcQm3s" type="number" step="any">
+								</div>
+								<div class="col-md-6">
+									<label>体积流量 Q (升/分钟（lpm）)</label>
+									<input class="form-control" id="calcQlpm" type="number" step="any">
+								</div>
+								<div class="col-md-6">
+									<label>管道直径 d (米（m）)</label>
+									<input class="form-control" id="calcDm" type="number" step="any">
+								</div>
+								<div class="col-md-6">
+									<label>管道直径 d (毫米（mm）)</label>
+									<input class="form-control" id="calcDmm" type="number" step="any">
+								</div>
+								<div class="col-md-6">
+									<label>截面积 A (平方米（m²）)</label>
+									<input class="form-control" id="calcAm2" type="number" step="any">
+								</div>
+								<div class="col-md-6">
+									<label>截面积 A (平方毫米（mm²）)</label>
+									<input class="form-control" id="calcAmm2" type="number" step="any">
+								</div>
+								<div class="col-md-6">
+									<label>流体流速 v (米/秒（m/s）)</label>
+									<input class="form-control" id="calcVms" type="number" step="any">
+								</div>
+								<div class="col-md-6">
+									<label>流体流速 v (厘米/秒（cm/s）)</label>
+									<input class="form-control" id="calcVcms" type="number" step="any">
+								</div>
+							</div>
+							<div class="mt-3 d-flex gap-2">
+								<button class="btn btn-primary" id="runCalc">自动互算</button>
+								<button class="btn btn-outline-secondary" id="resetCalc">清空全部</button>
+							</div>
+						</div>
+					</div>
+					<!--18.对照表 -->
+					<div class="tab-pane fade" id="tabTable">
+						<div id="tableWrap"></div>
+					</div>
+<!--19.电线载流量计算-->
+<div class="tab-pane fade" id="tabWireAmp">
+	<div class="calc-block">
+		<h5 class="text-primary mb-3">铜/铝电线安全载流量计算（国标经验公式，匹配vfe.ac.cn逻辑）</h5>
+		<div class="row g-3 mb-3">
+			<div class="col-md-3">
+				<label>导体材质</label>
+				<select class="form-select" id="wireMat">
+					<option value="cu">铜 Cu</option>
+					<option value="al">铝 Al</option>
+				</select>
+			</div>
+			<div class="col-md-3">
+				<label>导线截面积 mm²</label>
+				<input class="form-control" id="wireS" type="number" step="0.1" min="0.5" value="4">
+			</div>
+			<div class="col-md-3">
+				<label>敷设方式</label>
+				<select class="form-select" id="wireLay">
+					<option value="air">空气中明敷</option>
+					<option value="pipe">穿管多根</option>
+					<option value="bury">土壤直埋</option>
+				</select>
+			</div>
+			<div class="col-md-3">
+				<label>环境温度 ℃</label>
+				<input class="form-control" id="wireT" type="number" step="1" min="0" max="60" value="30">
+			</div>
+		</div>
+		<div class="row g-3 mb-4">
+			<div class="col-md-3">
+				<label>绝缘最高耐温 ℃</label>
+				<select class="form-select" id="wireIns">
+					<option value="70">70℃ 普通PVC</option>
+					<option value="90">90℃ 交联XLPE</option>
+					<option value="105">105℃ 高温PVC</option>
+				</select>
+			</div>
+			<div class="col-md-3">
+				<label>多根并排数量</label>
+				<input class="form-control" id="wireNum" type="number" step="1" min="1" value="1">
+			</div>
+			<div class="col-md-3">
+				<label>交流/直流</label>
+				<select class="form-select" id="wireCurType">
+					<option value="dc">直流</option>
+					<option value="ac">交流50Hz</option>
+				</select>
+			</div>
+			<div class="col-md-3 d-flex align-items-end">
+				<button class="btn btn-primary w-100" id="calcWireBtn">计算安全载流量</button>
+			</div>
+		</div>
+		<div class="alert alert-info">
+			<h6>计算结果</h6>
+			<p>基准理论载流量：<span id="baseAmp" class="fw-bold fs-5"></span> A</p>
+			<p>温度修正系数：<span id="tempCoef"></span></p>
+			<p>敷设并排修正系数：<span id="layCoef"></span></p>
+			<p class="text-danger fs-5 fw-bold">最终安全载流量：<span id="finalAmp"></span> A</p>
+		</div>
+		<div class="mt-3 text-secondary small">
+			公式来源：国标GB 50217、行业通用经验公式，与 vfe.ac.cn 载流量计算器匹配；大截面、高压需以电缆厂家样本为准
+		</div>
+	</div>
+</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let activeInput = null;
+const PI = Math.PI;
+// 8位有效数字格式化
+function format8Sig(num){
+	if(isNaN(num) || !isFinite(num)) return "";
+	return parseFloat(num.toPrecision(8)).toString();
+}
+
+// 1.长度 新增km
+const lengthUnits = {
+	"km":{name:"千米",base:1000},
+	"m":{name:"米",base:1},
+	"dm":{name:"分米",base:0.1},
+	"cm":{name:"厘米",base:0.01},
+	"mm":{name:"毫米",base:0.001},
+	"μm":{name:"微米",base:1e-6},
+	"nm":{name:"纳米",base:1e-9},
+	"Å":{name:"埃",base:1e-10},
+	"in":{name:"英寸",base:0.0254},
+	"ft":{name:"英尺",base:0.3048},	// 1 ft = 12 in
+	"yd":{name:"码",base:0.9144},	// 1 yd = 3 ft
+	"mi":{name:"英里",base:1609.344},	// 1 mile = 1760 yd
+	"n mile":{name:"海里",base:1852/3600},
+	"里":{name:"里",base:500},	// GB 3102.1 空间和时间的量和单位
+	"丈":{name:"丈",base:10/3},
+	"尺":{name:"尺",base:1/3},
+	"寸":{name:"寸",base:1/30},
+	"分":{name:"分",base:1/300},
+	//"厘":{name:"厘",base:1/3000},
+	//"毫":{name:"毫",base:1/30000}
+};
+
+// 2.面积
+const areaUnits = {
+	"m²":{name:"平方米",base:1},
+	"dm²":{name:"平方分米",base:0.01},
+	"cm²":{name:"平方厘米",base:1e-4},
+	"mm²":{name:"平方毫米",base:1e-6},
+	"hm²":{name:"公顷",base:10000},
+	"are":{name:"公亩",base:100},
+	"in²":{name:"平方英寸",base:0.00064516},
+	"ft²":{name:"平方英尺",base:0.09290304},
+	"yd²":{name:"平方码",base:0.83612736},
+	"mi²":{name:"平方英里",base:2589988.110336},	// 1 mile² = 640 acre
+	"acre":{name:"英亩",base:4046.8564224},	// 1 acre = 4840 yd²
+	"坪":{name:"坪",base:3.305785},	// (准确值)
+	"顷":{name:"顷",base:1000000/15},
+	"亩":{name:"亩",base:10000/15},	// GB 3102.1 空间和时间的量和单位
+	"分":{name:"分(土地)",base:1000/15},
+	"厘":{name:"厘(土地)",base:100/15},
+	//"平方尺":{name:"平方尺",base:1/9},
+	//"平方寸":{name:"平方寸",base:1/900},
+};
+
+//3.体积
+const volumeUnits = {
+	"m³":{name:"立方米",base:1},
+	"dm³":{name:"立方分米",base:0.001},
+	"cm³":{name:"立方厘米",base:1e-6},
+	"mm³":{name:"立方毫米",base:1e-9},
+	"L(l)":{name:"升",base:1e-3},
+	"dl":{name:"分升",base:1e-4},
+	"ml":{name:"毫升",base:1e-6},
+	"in³":{name:"立方英寸",base:0.000016387064},
+	"ft³":{name:"立方英尺",base:0.028316846592},
+	"yd³":{name:"立方码",base:0.764554857984},
+	"fl oz(UK)":{name:"盎司(液)(英)",base:2.84130625e-05},	// Fluid ounce = 1/20 pint
+	"fl oz(US)":{name:"盎司(液)(美)",base:2.365882365e-05},
+	"pt(UK)":{name:"品脱(英)",base:0.00056826125},	// 8 pt = 1 gal
+	"pt(US)":{name:"品脱(美)",base:0.000473176473},
+	"qt(US)":{name:"夸脱(英)",base:0.0011365225},	// 1/4 gallons
+	"qt(US)":{name:"夸脱(美)",base:0.000946352946},
+	"gal(UK)":{name:"加仑(英)",base:0.00454609},	// 1 gal(英)=4.54609 cubic decimetres ，https://www.legislation.gov.uk/ukpga/1985/72
+	"gal(US)":{name:"加仑(美)",base:0.003785411784},	// 1 gal(美) = 231 in³
+	"bbl":{name:"桶",base:0.158987294928},	// 1桶(美)(石油) = 9702 in³ = 42 gal(美)
+};
+
+//4.质量
+const massUnits = {
+	"t":{name:"吨",base:1000},
+	"kg":{name:"千克",base:1},
+	"g":{name:"克",base:0.001},
+	"mg":{name:"毫克",base:1e-6},
+	"μg":{name:"微克",base:1e-9},
+	"ct":{name:"克拉",base:0.0002},	// 1 克 = 5 克拉
+	"lb":{name:"磅",base:0.45359237},	// (准确值)
+	"oz":{name:"盎司",base:0.45359237/16},	// 1 磅 = 16 盎司
+	"gr":{name:"格令",base:0.45359237/7000},	// 1 磅 = 7000 格令
+	"q":{name:"公担",base:100},
+	"担":{name:"市担",base:50},
+	"斤":{name:"市斤",base:0.5},
+	"两":{name:"市两",base:0.05},
+	"钱":{name:"市钱",base:0.005}
+};
+
+//5.密度
+const densityUnits = {
+	"kg/m³":{name:"千克/立方米",base:1},
+	"g/m³":{name:"克/立方米",base:0.001},
+	"g/cm³":{name:"克/立方厘米",base:1000},
+	"kg/dm³":{name:"千克/立方分米",base:1000},
+	"kg/cm³":{name:"千克/立方厘米",base:1000000},
+	"t/m³":{name:"吨/立方米",base:1000},
+	"lb/ft³":{name:"磅/立方英尺",base:16.0184633739601},
+	"lb/in³":{name:"磅/立方英寸",base:27679.904710156}
+};
+
+//6.流量 新增SCCM
+const flowUnits = {
+	"m³/s":{name:"立方米/秒",base:1},
+	"m³/min":{name:"立方米/分",base:1/60},
+	"m³/h":{name:"立方米/时",base:1/3600},
+	"l/s":{name:"升/秒",base:0.001},
+	"l/min":{name:"升/分钟(lpm)",base:0.001/60},
+	"l/h":{name:"升/小时",base:0.001/3600},
+	"gpd":{name:"美加仑/天",base:0.003785411784/86400},
+	"gpm":{name:"美加仑/分",base:0.003785411784/60},
+	"cfm":{name:"立方英尺/分钟",base:0.028316846592/60},
+	"SCCM":{name:"标准立方厘米每分钟",base:1e-6/60}
+};
+
+//7.运动粘度
+const kinViscUnits = {
+	"m²/s":{name:"平方米/秒",base:1},
+	"St":{name:"斯托克斯",base:1e-4},
+	"cSt":{name:"厘斯托克斯",base:1e-6},
+	"ft²/s":{name:"平方英尺/秒",base:0.09290304},
+	"in²/s":{name:"平方英寸/秒",base:0.00064516}
+};
+
+//8.动力粘度
+const dynViscUnits = {
+	"Pa·s":{name:"帕斯卡秒",base:1},
+	"Po":{name:"泊",base:0.1},
+	"cP":{name:"厘泊",base:0.001},
+	"kgf·s/m²":{name:"千克力·秒/平方米",base:9.80665},
+	"lbf·s/ft²":{name:"磅力秒/平方英尺",base:47.88025898},
+	"lbf·s/in²":{name:"磅力秒/平方英寸",base:68947.5729}
+};
+
+//9.力
+const forceUnits = {
+	"N":{name:"牛顿",base:1},
+	"kN":{name:"千牛",base:1000},
+	"kgf":{name:"千克力",base:9.80665},
+	"gf":{name:"克力",base:0.00980665},
+	"tf":{name:"吨力",base:9806.65},
+	"dyn":{name:"达因",base:1e-5},
+	"lbf":{name:"磅力",base:4.4482216152605},
+	"kip":{name:"千磅力",base:4448.2216152605}
+};
+
+//10.压力（压强）
+const pressureUnits = {
+	"Pa":{name:"帕斯卡",base:1},
+	"kPa":{name:"千帕",base:1000},
+	"MPa":{name:"兆帕",base:1000000},
+	//"GPa":{name:"吉帕",base:1000000000},
+	"mbar":{name:"巴",base:100},
+	"bar":{name:"巴",base:100000},
+	"mTorr":{name:"毫托",base:101325/760000},
+	"Torr":{name:"托",base:101325/760},
+	"mmHg":{name:"毫米汞柱",base:101325/760},
+	"cmHg":{name:"厘米汞柱",base:101325/76},
+	"inHg":{name:"英寸汞柱",base:25.4*101325/760},
+	"mmH₂O":{name:"毫米水柱",base:9.80665},
+	"cmH₂O":{name:"厘米水柱",base:98.0665},
+	"mH₂O":{name:"米水柱",base:980.665},
+	"inH₂O":{name:"英寸水柱",base:249.0889},
+	"at":{name:"工程大气压",base:98066.5},
+	"atm":{name:"标准大气压",base:101325},
+	"kgf/cm²":{name:"公斤力/平方厘米",base:98066.5},
+	"kgf/m²":{name:"公斤力/平方米",base:9.80665},
+	"psi":{name:"磅力/平方英寸",base:6894.75729},
+	"psf":{name:"磅力/平方英尺",base:47.88025898},
+};
+
+//11.温度
+const tempList = [
+	{sym:"℃",name:"摄氏温度"},
+	{sym:"℉",name:"华氏温度"},
+	{sym:"K",name:"热力学温度"}
+];
+
+//12.功率 powerUnits 正确定义
+const powerUnits = {
+	"W":{name:"瓦特",base:1},
+	"kW":{name:"千瓦",base:1000},
+	"MW":{name:"兆瓦",base:1000000},
+	"PS":{name:"米制马力",base:735.49875},
+	"hp":{name:"英制马力",base:745.69987158}
+};
+
+//13.速度 新增cm/s独立单位
+const speedUnits = {
+	"m/s":{name:"米/秒",base:1},
+	"cm/s":{name:"厘米/秒",base:0.01},
+	"km/h":{name:"千米/小时",base:1/3.6},
+	"m/min":{name:"米/分",base:1/60},
+	"mile/h":{name:"英里/小时",base:0.44704},
+	"ft/s":{name:"英尺/秒",base:0.3048},
+	"in/s":{name:"英寸/秒",base:0.0254},
+	"mach":{name:"马赫(15℃空气)",base:340.3},
+	"kn":{name:"节",base:1852/3600}
+};
+
+//14.功热 energyUnits
+const energyUnits = {
+	"J":{name:"焦耳",base:1},
+	"kW·h":{name:"千瓦时",base:3600000},
+	"kgf·m":{name:"千克力米",base:9.80665},
+	"cal":{name:"卡",base:4.1868},
+	"btu":{name:"英热单位",base:1055.05585262},
+	"ft·lb":{name:"英尺磅",base:1.3558179483314004}
+};
+
+//15.角度 完整四单位
+const angleUnits = {
+	rad:{name:"弧度",base:1,sym:"rad"},
+	deg:{name:"度",base:PI/180,sym:"°"},
+	min:{name:"分",base:PI/(180*60),sym:"′"},
+	sec:{name:"秒",base:PI/(180*3600),sym:"\""}
+};
+
+//16.漏率
+const leakUnits = {
+	"Pa·m³/s":{name:"帕·立方米/秒",base:1},
+	"Pa·l/s":{name:"帕·升/秒",base:0.001},
+	"mbar·l/s":{name:"毫巴·升/秒",base:0.1},
+	"Torr·l/s":{name:"托·升/秒",base:101325/760/1000}
+};
+
+//17.浓度 新增%
+const concUnits = {
+	"%":{name:"百分比",base:0.01},
+	"ppm":{name:"百万分比",base:1e-6},
+	"ppb":{name:"十亿分比",base:1e-9},
+	"ppt":{name:"万亿分比",base:1e-12}
+};
+
+//对照表分组
+const tableGroups = [
+	{title:"长度单位",data:lengthUnits,symSI:"m",nameSI:"米"},
+	{title:"面积单位",data:areaUnits,symSI:"m²",nameSI:"平方米"},
+	{title:"体积单位",data:volumeUnits,symSI:"m³",nameSI:"立方米"},
+	{title:"质量单位",data:massUnits,symSI:"kg",nameSI:"千克"},
+	{title:"密度单位",data:densityUnits,symSI:"kg/m³",nameSI:"千克/立方米"},
+	{title:"流量单位",data:flowUnits,symSI:"m³/s",nameSI:"立方米/秒"},
+	{title:"运动粘度",data:kinViscUnits,symSI:"m²/s",nameSI:"平方米/秒"},
+	{title:"动力粘度",data:dynViscUnits,symSI:"Pa·s",nameSI:"帕斯卡秒"},
+	{title:"力单位",data:forceUnits,symSI:"N",nameSI:"牛顿"},
+	{title:"压力(压强)",data:pressureUnits,symSI:"Pa",nameSI:"帕斯卡"},
+	{title:"功率单位",data:powerUnits,symSI:"W",nameSI:"瓦特"},
+	{title:"速度单位",data:speedUnits,symSI:"m/s",nameSI:"米/秒"},
+	{title:"功/能/热",data:energyUnits,symSI:"J",nameSI:"焦耳"},
+	{title:"角度单位",data:angleUnits,symSI:"rad",nameSI:"弧度"},
+	{title:"漏率单位",data:leakUnits,symSI:"Pa·m3/s",nameSI:"帕·立方米/秒"},
+	{title:"浓度单位",data:concUnits,symSI:"基准1",nameSI:"比值基准"}
+];
+
+// 生成输入框 无placeholder
+function buildInputs(unitObj, boxId, colClass="col-md-6 col-sm-12"){
+	const wrap = document.getElementById(boxId);
+	wrap.innerHTML = "";
+	const keys = Object.keys(unitObj);
+	for(let sym of keys){
+		const item = unitObj[sym];
+		//const labelText = `${item.name}（${sym}）`;
+		const displaySym = item.sym ?? sym;
+		labelText = `${item.name}（${displaySym}）`;
+		const col = document.createElement("div");
+		col.className = colClass;
+		col.innerHTML = `<div class="input-group">
+			<span class="input-group-text bg-primary text-white">${labelText}</span>
+			<input type="number" step="any" class="form-control unit-input" data-group="${boxId}" data-unitkey="${sym}">
+		</div>`;
+		wrap.appendChild(col);
+	}
+	bindInputEvent(wrap, unitObj);
+}
+
+// 绑定输入事件
+function bindInputEvent(wrap, unitObj){
+	const inputs = wrap.querySelectorAll(".unit-input");
+	inputs.forEach(inp=>{
+		inp.onfocus = ()=>inp.select();
+		inp.oninput = function(){
+			activeInput = this;
+			const g = this.dataset.group;
+			const k = this.dataset.unitkey;
+			const val = parseFloat(this.value);
+			if(isNaN(val)){
+				document.querySelectorAll(`.unit-input[data-group="${g}"]`).forEach(i=>{
+					if(i !== activeInput) i.value = "";
+				});
+				return;
+			}
+			syncConvert(unitObj, g, k, val);
+		};
+	});
+}
+
+// 核心换算函数
+function syncConvert(unitDict, groupId, fromKey, numVal){
+	const base = numVal * unitDict[fromKey].base;
+	const all = document.querySelectorAll(`.unit-input[data-group="${groupId}"]`);
+	all.forEach(inp=>{
+		if(inp === activeInput) return;
+		const toKey = inp.dataset.unitkey;
+		// 安全判断，不存在直接跳过不赋值
+		if(!unitDict.hasOwnProperty(toKey)) return;
+		const res = base / unitDict[toKey].base;
+		inp.value = format8Sig(res);
+	});
+}
+
+// 温度渲染
+function buildTempInputs(){
+	const wrap = document.getElementById("tempBox");
+	wrap.innerHTML = "";
+	tempList.forEach(t=>{
+		const lt = `${t.name}（${t.sym}）`;
+		const col = document.createElement("div");
+		col.className = "col-md-4 col-sm-12";
+		col.innerHTML = `<div class="input-group">
+			<span class="input-group-text bg-primary text-white">${lt}</span>
+			<input class="form-control temp-input" data-temp="${t.sym}" type="number" step="any">
+		</div>`;
+		wrap.appendChild(col);
+	});
+	const inputs = wrap.querySelectorAll(".temp-input");
+	inputs.forEach(inp=>{
+		inp.onfocus = ()=>inp.select();
+		inp.oninput = function(){
+			const v = parseFloat(this.value);
+			if(isNaN(v)){inputs.forEach(i=>i.value="");return;}
+			let c,f,k;
+			if(this.dataset.temp === "℃"){c=v; f=c*1.8+32; k=c+273.15;}
+			else if(this.dataset.temp === "℉"){c=(v-32)/1.8; f=v; k=c+273.15;}
+			else{c=v-273.15; f=c*1.8+32; k=v;}
+			inputs.forEach(i=>{
+				if(i!==this){
+					if(i.dataset.temp==="℃")i.value=format8Sig(c);
+					if(i.dataset.temp==="℉")i.value=format8Sig(f);
+					if(i.dataset.temp==="K")i.value=format8Sig(k);
+				}
+			});
+		};
+	});
+}
+
+// 粘度互算
+function runViscCalc(){
+	const rho = parseFloat(document.getElementById("viscRho").value);
+	const nu = parseFloat(document.getElementById("viscNu").value);
+	const mu = parseFloat(document.getElementById("viscMu").value);
+	if(!isNaN(rho) && !isNaN(nu)) document.getElementById("viscMu").value=format8Sig(nu*rho);
+	else if(!isNaN(rho) && !isNaN(mu)) document.getElementById("viscNu").value=format8Sig(mu/rho);
+}
+function resetViscCalc(){
+	["viscRho","viscNu","viscMu"].forEach(id=>document.getElementById(id).value="");
+}
+
+// 流体计算
+function fluidCalc(){
+	let Qm3s = parseFloat(document.getElementById("calcQm3s").value)||null;
+	let Qlpm = parseFloat(document.getElementById("calcQlpm").value)||null;
+	let Dm = parseFloat(document.getElementById("calcDm").value)||null;
+	let Dmm = parseFloat(document.getElementById("calcDmm").value)||null;
+	let Am2 = parseFloat(document.getElementById("calcAm2").value)||null;
+	let Amm2 = parseFloat(document.getElementById("calcAmm2").value)||null;
+	let Vms = parseFloat(document.getElementById("calcVms").value)||null;
+	let Vcms = parseFloat(document.getElementById("calcVcms").value)||null;
+
+	const lpm2m3s = 0.001/60;
+	const mm2m = 0.001;
+	const mm2_2m2 = 1e-6;
+	const cm2m = 0.01;
+
+	let dSI=null,ASI=null,QSI=null,vSI=null;
+	if(Dm>0)dSI=Dm;
+	if(Dmm>0)dSI=Dmm*mm2m;
+	if(Am2>0)ASI=Am2;
+	if(Amm2>0)ASI=Amm2*mm2_2m2;
+	if(Qm3s>0)QSI=Qm3s;
+	if(Qlpm>0)QSI=Qlpm*lpm2m3s;
+	if(Vms!==null)vSI=Vms;
+	if(Vcms!==null)vSI=Vcms*cm2m;
+
+	if(dSI!==null)ASI = PI*dSI*dSI/4;
+	if(ASI>0){
+		if(QSI>0 && vSI===null) vSI=QSI/ASI;
+		if(vSI>0 && QSI===null) QSI=ASI*vSI;
+	}
+
+	if(QSI!==null){
+		document.getElementById("calcQm3s").value=format8Sig(QSI);
+		document.getElementById("calcQlpm").value=format8Sig(QSI/lpm2m3s);
+	}
+	if(dSI!==null){
+		document.getElementById("calcDm").value=format8Sig(dSI);
+		document.getElementById("calcDmm").value=format8Sig(dSI/mm2m);
+	}
+	if(ASI!==null){
+		document.getElementById("calcAm2").value=format8Sig(ASI);
+		document.getElementById("calcAmm2").value=format8Sig(ASI/mm2_2m2);
+	}
+	if(vSI!==null){
+		document.getElementById("calcVms").value=format8Sig(vSI);
+		document.getElementById("calcVcms").value=format8Sig(vSI/cm2m);
+	}
+}
+function resetCalc(){
+	["calcQm3s","calcQlpm","calcDm","calcDmm","calcAm2","calcAmm2","calcVms","calcVcms"]
+	.forEach(id=>document.getElementById(id).value="");
+}
+
+// 生成对照表
+function buildConvertTable(){
+	const wrap = document.getElementById("tableWrap");
+	let html = "";
+	tableGroups.forEach(group=>{
+		const unitList = Object.entries(group.data);
+		const unitKeys = unitList.map(item=>item[0]);
+		const unitInfos = new Map(unitList);
+		const titleName = group.title;
+		html += `<h4 class="mt-5 mb-3 text-primary border-bottom pb-2">${titleName} | SI基准：${group.nameSI}（${group.symSI}）</h4>`;
+
+		// 表头行
+		let thRow = `<tr><th class="bg-primary text-white">1单位↓ \ 单位→</th>`;
+		unitKeys.forEach(sym=>{
+			thRow += `<th class="bg-primary text-white">${sym}</th>`;
+		});
+		thRow += `<th class="bg-primary text-white"></th></tr>`;
+
+		// 逐行生成矩阵
+		let tableBody = "";
+		unitKeys.forEach(rowSym=>{
+			const rowItem = unitInfos.get(rowSym);
+			const rowBase = rowItem.base;
+			let tr = `<tr><th class="table-light fw-bold">${rowSym}</th>`;
+			unitKeys.forEach(colSym=>{
+				const colBase = unitInfos.get(colSym).base;
+				const ratio = rowBase / colBase;
+				const valStr = format8Sig(ratio);
+				// 对角线标红1
+				const cellClass = (rowSym === colSym) ? "text-danger fw-bold" : "";
+				tr += `<td class="${cellClass}">${valStr}</td>`;
+			});
+			tr += `<th class="table-light fw-bold">${rowSym}</th></tr>`;
+			tableBody += tr;
+		});
+
+		// 拼接完整表格
+		html += `<div class="table-responsive mb-4">
+			<table class="table table-bordered table-convert table-sm w-100">
+				${thRow}
+				${tableBody}
+			</table>
+		</div>`;
+	});
+	wrap.innerHTML = html;
+}
+
+
+// 电线载流量计算函数
+function calcWireAmp(){
+	// 获取输入值
+	const mat = document.getElementById("wireMat").value;
+	const S = parseFloat(document.getElementById("wireS").value);
+	const lay = document.getElementById("wireLay").value;
+	const Tenv = parseFloat(document.getElementById("wireT").value);
+	const TinsMax = parseFloat(document.getElementById("wireIns").value);
+	const num = parseInt(document.getElementById("wireNum").value);
+	const curType = document.getElementById("wireCurType").value;
+
+	// 1、基础裸线载流量经验公式（匹配行业计算器基准）
+	let base;
+	if(mat === "cu"){
+		// 铜基准：明敷单根 25℃环境
+		base = 10 * Math.sqrt(S) + 4 * S;
+	}else{
+		// 铝载流量为铜的0.62倍
+		base = (10 * Math.sqrt(S) + 4 * S) * 0.62;
+	}
+
+	// 2、温度修正系数
+	const deltaT = TinsMax - 25; // 基准环境25℃
+	const realDelta = TinsMax - Tenv;
+	let tempCoef = Math.sqrt(realDelta / deltaT);
+	if(tempCoef < 0.3) tempCoef = 0.3; // 下限保护
+
+	//3、敷设+并排修正系数
+	let layCoef = 1;
+	//敷设基础系数
+	if(lay === "pipe") layCoef *= 0.75;
+	if(lay === "bury") layCoef *= 0.8;
+	//多根并排衰减
+	if(num >=2){
+		const numTable = [1,1,0.88,0.8,0.73,0.67,0.62,0.58];
+		layCoef *= numTable[Math.min(num,7)];
+	}
+	//交流集肤效应小幅衰减（大截面明显）
+	if(curType === "ac" && S >=25){
+		base *= (1 - (S/1000)*0.12);
+	}
+
+	//最终载流量
+	const final = base * tempCoef * layCoef;
+
+	//回填结果，8位有效数字统一格式化
+	document.getElementById("baseAmp").textContent = format8Sig(base);
+	document.getElementById("tempCoef").textContent = format8Sig(tempCoef);
+	document.getElementById("layCoef").textContent = format8Sig(layCoef);
+	document.getElementById("finalAmp").textContent = format8Sig(final);
+}
+
+
+// 页面加载初始化 严格按变量定义顺序渲染，杜绝引用未定义
+window.onload = function(){
+	buildInputs(lengthUnits,"lengthBox");
+	buildInputs(areaUnits,"areaBox");
+	buildInputs(volumeUnits,"volumeBox");
+	buildInputs(massUnits,"massBox");
+	buildInputs(densityUnits,"densityBox");
+	buildInputs(flowUnits,"flowBox");
+	buildInputs(kinViscUnits,"kinViscBox");
+	buildInputs(dynViscUnits,"dynViscBox");
+	buildInputs(forceUnits,"forceBox");
+	buildInputs(pressureUnits,"pressureBox");
+	buildTempInputs();
+	buildInputs(powerUnits,"powerBox"); // 修复：powerUnits已完整定义，正常渲染功率面板
+	buildInputs(speedUnits,"speedBox");
+	buildInputs(energyUnits,"energyBox");
+	buildInputs(angleUnits,"angleBox");
+	buildInputs(leakUnits,"leakBox","col-12");
+	buildInputs(concUnits,"concBox","col-md-4 col-sm-12");
+	buildConvertTable();
+
+	//绑定按钮
+	document.getElementById("runViscCalc").onclick = runViscCalc;
+	document.getElementById("resetViscCalc").onclick = resetViscCalc;
+	document.getElementById("runCalc").onclick = fluidCalc;
+	document.getElementById("resetCalc").onclick = resetCalc;
+	//末尾加这一行绑定载流量按钮
+	document.getElementById("calcWireBtn").onclick = calcWireAmp;
+};
+</script>
+</body>
+</html>
