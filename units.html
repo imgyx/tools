@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>单位换算计算器</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-	<style>
-		body {background-color: #f8f9fa;}
-		.main-card {box-shadow: 0 4px 18px rgba(0,0,0,0.08);border-radius: 14px;}
-		.input-group-text {min-width: 160px;font-weight: 500;}
-		.calc-block{background:#eef7ff;padding:1rem;border-radius:10px;margin-bottom:1rem;}
-		.nav-tabs .nav-link{font-weight:500;font-size:14px}
-		.form-control:focus{box-shadow:0 0 0 0.2rem rgba(13,110,255,.25)}
-		.tab-pane {padding-top: 1rem;}
-		.visc-divider{border-top:1px solid #ccc;margin:1.5rem 0;padding-top:1.5rem}
-		.table-convert th{background:#0d6efd;color:#fff}
-		.table-convert{font-size:14px}
-		.table-convert th{
-	white-space: nowrap;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>单位换算计算器</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body {background-color: #f8f9fa;}
+.main-card {box-shadow: 0 4px 18px rgba(0,0,0,0.08);border-radius: 14px;}
+.input-group-text {min-width: 160px;font-weight: 500;}
+.calc-block{background:#eef7ff;padding:1rem;border-radius:10px;margin-bottom:1rem;}
+.nav-tabs .nav-link{font-weight:500;font-size:14px}
+.form-control:focus{box-shadow:0 0 0 0.2rem rgba(13,110,255,.25)}
+.tab-pane {padding-top: 1rem;}
+.visc-divider{border-top:1px solid #ccc;margin:1.5rem 0;padding-top:1.5rem}
+.table-convert th{background:#0d6efd;color:#fff}
+.table-convert{font-size:14px}
+.table-convert th{
+white-space: nowrap;
 }
 .table-responsive{
-	overflow-x: auto;
+overflow-x: auto;
 }
 .bg-light{background-color:#f8f9fa !important;}
 .small{font-size:0.875rem;line-height:1.65;}
 ol.ps-3{padding-left:1.2rem;}
 ol.mb-0{margin-bottom:0;}
-	</style>
+</style>
 </head>
+
 <body>
 <div class="container py-5">
 	<div class="row justify-content-center">
@@ -53,7 +54,7 @@ ol.mb-0{margin-bottom:0;}
 					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabLeak">漏率</button></li>
 					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabConc">浓度</button></li>
 					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabCalc">流体计算</button></li>
-<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabWireAmp">电线载流量</button></li>
+					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabWireAmp">电线载流量</button></li>
 					<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabTable">换算对照表</button></li>
 				</ul>
 
@@ -93,6 +94,7 @@ ol.mb-0{margin-bottom:0;}
 								<li>UKgal英加仑、USgal美加仑用于油料、化工、涂料容积计量</li>
 								<li>立方英尺、立方英寸为欧美设备英制容积标注单位</li>
 								<li>升的单位符号，大小写字母都可以使用 L/l</li>
+								<li>UK 英制单位参考：<a href="https://www.legislation.gov.uk/ukpga/1985/72">Weights and Measures Act 1985</a></li>
 							</ol>
 						</div>
 					</div>
@@ -422,6 +424,7 @@ const PI = Math.PI;
 function format8Sig(num){
 	if(isNaN(num) || !isFinite(num)) return "";
 	return parseFloat(num.toPrecision(8)).toString();
+	//return parseFloat(num).toString();
 }
 
 // 1.长度 新增km
@@ -470,26 +473,26 @@ const areaUnits = {
 	//"平方寸":{name:"平方寸",base:1/900},
 };
 
-//3.体积
+//3.体积/容量
 const volumeUnits = {
 	"m³":{name:"立方米",base:1},
 	"dm³":{name:"立方分米",base:0.001},
 	"cm³":{name:"立方厘米",base:1e-6},
 	"mm³":{name:"立方毫米",base:1e-9},
 	"L(l)":{name:"升",base:1e-3},
-	"dl":{name:"分升",base:1e-4},
-	"ml":{name:"毫升",base:1e-6},
+	"dL":{name:"分升",base:1e-4},
+	"mL":{name:"毫升",base:1e-6},
 	"in³":{name:"立方英寸",base:0.000016387064},
 	"ft³":{name:"立方英尺",base:0.028316846592},
 	"yd³":{name:"立方码",base:0.764554857984},
-	"fl oz(UK)":{name:"盎司(液)(英)",base:2.84130625e-05},	// Fluid ounce = 1/20 pint
-	"fl oz(US)":{name:"盎司(液)(美)",base:2.365882365e-05},
-	"pt(UK)":{name:"品脱(英)",base:0.00056826125},	// 8 pt = 1 gal
-	"pt(US)":{name:"品脱(美)",base:0.000473176473},
-	"qt(US)":{name:"夸脱(英)",base:0.0011365225},	// 1/4 gallons
-	"qt(US)":{name:"夸脱(美)",base:0.000946352946},
-	"gal(UK)":{name:"加仑(英)",base:0.00454609},	// 1 gal(英)=4.54609 cubic decimetres ，https://www.legislation.gov.uk/ukpga/1985/72
-	"gal(US)":{name:"加仑(美)",base:0.003785411784},	// 1 gal(美) = 231 in³
+	"UK fl oz":{name:"盎司(液)(英)",base:2.84130625e-05},	// Fluid ounce = 1/20 pint
+	"US fl oz":{name:"盎司(液)(美)",base:2.95735295625e-05},	// Fluid ounce = 1/16 pint
+	"UK pt":{name:"品脱(英)",base:0.00056826125},	// 8 pt = 1 gal
+	"US pt":{name:"品脱(美)",base:0.000473176473},
+	"UK qt":{name:"夸脱(英)",base:0.0011365225},	// 1/4 gallons
+	"US qt":{name:"夸脱(美)",base:0.000946352946},
+	"UK gal":{name:"加仑(英)",base:0.00454609},	// 1 gal(英)=4.54609 cubic decimetres ，https://www.legislation.gov.uk/ukpga/1985/72
+	"US gal":{name:"加仑(美)",base:0.003785411784},	// 1 gal(美) = 231 in³
 	"bbl":{name:"桶",base:0.158987294928},	// 1桶(美)(石油) = 9702 in³ = 42 gal(美)
 };
 
@@ -658,22 +661,22 @@ const concUnits = {
 
 //对照表分组
 const tableGroups = [
-	{title:"长度单位",data:lengthUnits,symSI:"m",nameSI:"米"},
-	{title:"面积单位",data:areaUnits,symSI:"m²",nameSI:"平方米"},
-	{title:"体积单位",data:volumeUnits,symSI:"m³",nameSI:"立方米"},
-	{title:"质量单位",data:massUnits,symSI:"kg",nameSI:"千克"},
-	{title:"密度单位",data:densityUnits,symSI:"kg/m³",nameSI:"千克/立方米"},
-	{title:"流量单位",data:flowUnits,symSI:"m³/s",nameSI:"立方米/秒"},
-	{title:"运动粘度",data:kinViscUnits,symSI:"m²/s",nameSI:"平方米/秒"},
-	{title:"动力粘度",data:dynViscUnits,symSI:"Pa·s",nameSI:"帕斯卡秒"},
-	{title:"力单位",data:forceUnits,symSI:"N",nameSI:"牛顿"},
+	{title:"长度",data:lengthUnits,symSI:"m",nameSI:"米"},
+	{title:"面积",data:areaUnits,symSI:"m²",nameSI:"平方米"},
+	{title:"体积/容量",data:volumeUnits,symSI:"m³",nameSI:"立方米"},
+	{title:"质量",data:massUnits,symSI:"kg",nameSI:"千克"},
+	{title:"密度",data:densityUnits,symSI:"kg/m³",nameSI:"千克/立方米"},
+	{title:"流量",data:flowUnits,symSI:"m³/s",nameSI:"立方米/秒"},
+	{title:"运动",data:kinViscUnits,symSI:"m²/s",nameSI:"平方米/秒"},
+	{title:"动力",data:dynViscUnits,symSI:"Pa·s",nameSI:"帕斯卡秒"},
+	{title:"力",data:forceUnits,symSI:"N",nameSI:"牛顿"},
 	{title:"压力(压强)",data:pressureUnits,symSI:"Pa",nameSI:"帕斯卡"},
-	{title:"功率单位",data:powerUnits,symSI:"W",nameSI:"瓦特"},
-	{title:"速度单位",data:speedUnits,symSI:"m/s",nameSI:"米/秒"},
+	{title:"功率",data:powerUnits,symSI:"W",nameSI:"瓦特"},
+	{title:"速度",data:speedUnits,symSI:"m/s",nameSI:"米/秒"},
 	{title:"功/能/热",data:energyUnits,symSI:"J",nameSI:"焦耳"},
-	{title:"角度单位",data:angleUnits,symSI:"rad",nameSI:"弧度"},
-	{title:"漏率单位",data:leakUnits,symSI:"Pa·m3/s",nameSI:"帕·立方米/秒"},
-	{title:"浓度单位",data:concUnits,symSI:"基准1",nameSI:"比值基准"}
+	{title:"角度",data:angleUnits,symSI:"rad",nameSI:"弧度"},
+	{title:"漏率",data:leakUnits,symSI:"Pa·m3/s",nameSI:"帕·立方米/秒"},
+	{title:"浓度",data:concUnits,symSI:"基准1",nameSI:"比值基准"}
 ];
 
 // 生成输入框 无placeholder
@@ -842,7 +845,8 @@ function buildConvertTable(){
 		const unitKeys = unitList.map(item=>item[0]);
 		const unitInfos = new Map(unitList);
 		const titleName = group.title;
-		html += `<h4 class="mt-5 mb-3 text-primary border-bottom pb-2">${titleName} | SI基准：${group.nameSI}（${group.symSI}）</h4>`;
+		//html += `<h4 class="mt-5 mb-3 text-primary border-bottom pb-2">${titleName} | SI基准：${group.nameSI}（${group.symSI}）</h4>`;
+		html += `<h4 class="mt-5 mb-3 text-primary border-bottom pb-2">${titleName}</h4>`;
 
 		// 表头行
 		let thRow = `<tr><th class="bg-primary text-white">1单位↓ \ 单位→</th>`;
