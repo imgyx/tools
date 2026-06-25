@@ -844,12 +844,13 @@ function buildInputs(unitObj, boxId, colClass="col-md-6 col-sm-12", enableGroup 
 
 	// 分组样式配置
 	const catConfig = {
-		si: { title: "国际公制(SI)", border: "border-primary text-primary", order: 10 },
-		common: { title: "常用单位", border: "border-dark text-dark", order: 20 },
-		imperial: { title: "英制/美制单位", border: "border-danger text-danger", order: 30 },
-		chinese: { title: "市制单位", border: "border-success text-success", order: 40 },
-		others: { title: "其他单位", border: "border-secondary text-secondary", order: 50 },
-		null: { title: "", border: "", order: 99 }
+		si: { title: "国际公制(SI)", border: "border-primary text-primary", bg: "bg-primary", order: 10 },
+		common: { title: "常用单位", border: "border-dark text-dark", bg: "bg-dark", order: 20 },
+		imperial: { title: "英制/美制单位", border: "border-danger text-danger", bg: "bg-danger", order: 30 },
+		chinese: { title: "市制单位", border: "border-success text-success", bg: "bg-success", order: 40 },
+		time: { title: "时间单位", border: "border-info text-info", bg: "bg-info", order: 40 },
+		others: { title: "其他单位", border: "border-secondary text-secondary", bg: "bg-secondary", order: 50 },
+		null: { title: "", border: "", bg: "bg-secondary", order: 99 }
 	};
 
 	// 第一步：把单位按category归类；无category统一归为null组
@@ -902,11 +903,19 @@ function buildInputs(unitObj, boxId, colClass="col-md-6 col-sm-12", enableGroup 
 
 			const col = document.createElement("div");
 			col.className = colClass;
+			//col.innerHTML = `
+			//	<div class="input-group">
+			//		<span class="input-group-text bg-primary text-white">${labelText}</span>
+			//		<input type="number" step="any" class="form-control unit-input" 
+			//			data-group="${boxId}" data-unitkey="${sym}">
+			//	</div>
+			//`;
+			// 这里 cfg.bg 取自当前分组配置
 			col.innerHTML = `
 				<div class="input-group">
-					<span class="input-group-text bg-primary text-white">${labelText}</span>
+					<span class="input-group-text ${cfg.bg} text-white">${labelText}</span>
 					<input type="number" step="any" class="form-control unit-input" 
-						data-group="${boxId}" data-unitkey="${sym}">
+						   data-group="${boxId}" data-unitkey="${sym}">
 				</div>
 			`;
 			wrap.appendChild(col);
@@ -960,8 +969,12 @@ function buildTempInputs(){
 		const lt = `${t.name}（${t.sym}）`;
 		const col = document.createElement("div");
 		col.className = "col-md-4 col-sm-12";
+		//col.innerHTML = `<div class="input-group">
+		//	<span class="input-group-text bg-primary text-white">${lt}</span>
+		//	<input class="form-control temp-input" data-temp="${t.sym}" type="number" step="any">
+		//</div>`;
 		col.innerHTML = `<div class="input-group">
-			<span class="input-group-text bg-primary text-white">${lt}</span>
+			<span class="input-group-text bg-secondary text-white">${lt}</span>
 			<input class="form-control temp-input" data-temp="${t.sym}" type="number" step="any">
 		</div>`;
 		wrap.appendChild(col);
